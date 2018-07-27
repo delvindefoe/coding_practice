@@ -2,6 +2,8 @@ import java.io.*;
 import java.util.*;
 import java.lang.Math.*;
 
+// Solution to http://codekata.com/kata/kata04-data-munging/
+
 class TemperatureSpread {
 
 	public String[] readFile(String fileName) {
