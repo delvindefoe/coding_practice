@@ -6,22 +6,29 @@ import java.lang.Math.*;
 
 class TemperatureSpread {
 
-	public String[] readFile(String fileName) {
+	public String[] readFile(String fileName) throws IOException {
 		ArrayList<String> lines = new ArrayList<String>();
 		String  line;
+		BufferedReader br = null;
+		String[] data = null;
 		try {
 			File file = new File(fileName);
 			FileReader fileReader = new FileReader(file);
-			BufferedReader br = new BufferedReader(fileReader);
+			br = new BufferedReader(fileReader);
 		
 			while ((line = br.readLine()) != null) {
 				lines.add(line);
 			}
+			data = lines.toArray(new String[lines.size()]);
 		} catch (IOException e) {
 			e.printStackTrace();
-			return null;
+			br = null;
+		} finally {
+			if (br != null) {
+				br.close();
+			}
 		}
-		return lines.toArray(new String[lines.size()]);
+		return data;
 	}
 	
 	public boolean isNumeric(String str) {
@@ -62,9 +69,13 @@ class TemperatureSpread {
 	
 	public static void main(String[] args) {
 		TemperatureSpread TSpread = new TemperatureSpread();
-		//String[] lines = TSpread.readFile("weather.dat");
-		//System.out.printf("%s\n", TSpread.processLines(lines, 0, 1, 2));
-		String[] lines = TSpread.readFile("football.dat");
-		System.out.printf("%s\n", TSpread.processLines(lines, 1, 6, 8));
+		try {
+			//String[] lines = TSpread.readFile("weather.dat");
+			//System.out.printf("%s\n", TSpread.processLines(lines, 0, 1, 2));
+			String[] lines = TSpread.readFile("football.dat");
+			System.out.printf("%s\n", TSpread.processLines(lines, 1, 6, 8));
+		} catch (IOException e) {
+			System.out.println("Error reading file");
+		}
 	}
 }
